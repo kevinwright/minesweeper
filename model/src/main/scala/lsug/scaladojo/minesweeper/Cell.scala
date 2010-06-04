@@ -22,11 +22,13 @@ case class Cell(
   mined : Boolean = false,
   count : Int = 0,
   revealed : Boolean = false,
-  flagged : Boolean = false)
+  flagged : Boolean = false,
+  adjacentEmpty : Boolean = false)
 {
   import Cell._
 
-  def revealedEmpty = revealed  && !mined && count == 0
+  val empty = revealed  && !mined && count == 0
+  val emptyTainted = adjacentEmpty || empty
 
   override def toString =
     if (!revealed) {

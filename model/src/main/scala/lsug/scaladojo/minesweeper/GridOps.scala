@@ -53,13 +53,15 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
   def reveal(col : Int, row : Int) : Grid = {
 
     def propFunc(l:Cell, c:Cell, r:Cell) = {
-      if(l.revealedEmpty || r.revealedEmpty) c.copy(revealed = true)
+      if(l.emptyTainted || r.emptyTainted) c.copy(revealed = true, adjacentEmpty=true)
       else c
     }
 
     //recurse until no more to reveal
     def cascade(prev:Grid) : Grid = {
-      val current = prev.propagate(propFunc)
+      //clean the adjacentEmpty flag after each pass to stop the "taint"
+      //from overtaking the grid and revealing everything!
+      val current = prev.propagate(propFunc).mapCells(_.copy(adjacentEmpty=false))
       if (current.numRevealed > prev.numRevealed) cascade(current)
       else current
     }
