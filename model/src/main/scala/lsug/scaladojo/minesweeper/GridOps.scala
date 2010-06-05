@@ -41,19 +41,41 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
     map2d(padded(_).sliding(3).map(invokeF).toList)
   }
 
-  def numRevealed = count(_.revealed)
+  def numVisible = count(_.visible)
 
 
-  def disclose = mapCells {_.copy(revealed = true)}
+  def disclose = mapCells {_.copy(visible = true)}
 
 
   def flag(col : Int, row : Int) : Grid = mapCell(col, row)(_.copy(flagged = true))
 
 
+  def iterativeReveal(col : Int, row : Int) : Stream[Grid] = {
+
+    def spreadEmptiness(l:Cell, c:Cell, r:Cell) =
+      if(l.emptyTainted || r.emptyTainted) c.copy(visible = true, adjacentEmpty=true)
+      else c
+
+    //cleans the adjacentEmpty flag after each pass to stop the "taint"
+    //from overtaking the grid and revealing everything!
+    def removeTaint(c:Cell) : Cell = c.copy(adjacentEmpty=false)
+
+    //recurse until no more to reveal
+    def recurse(prev:Grid) : Stream[Grid] = {
+      val current = prev.propagate(spreadEmptiness).mapCells(removeTaint)
+      if (current.numVisible > prev.numVisible) current #:: recurse(current)
+      else Stream.Empty
+    }
+
+    //reveal selected
+    val current = mapCell(col, row)(_.copy(clicked=true, visible = true))
+    current #:: recurse(current)
+  }
+
   def reveal(col : Int, row : Int) : Grid = {
 
     def propFunc(l:Cell, c:Cell, r:Cell) = {
-      if(l.emptyTainted || r.emptyTainted) c.copy(revealed = true, adjacentEmpty=true)
+      if(l.emptyTainted || r.emptyTainted) c.copy(visible = true, adjacentEmpty=true)
       else c
     }
 
@@ -62,12 +84,12 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
       //clean the adjacentEmpty flag after each pass to stop the "taint"
       //from overtaking the grid and revealing everything!
       val current = prev.propagate(propFunc).mapCells(_.copy(adjacentEmpty=false))
-      if (current.numRevealed > prev.numRevealed) cascade(current)
+      if (current.numVisible > prev.numVisible) cascade(current)
       else current
     }
 
     //reveal selected
-    val current = mapCell(col, row)(_.copy(revealed = true))
+    val current = mapCell(col, row)(_.copy(clicked=true, visible = true))
     cascade(current)
   }
 

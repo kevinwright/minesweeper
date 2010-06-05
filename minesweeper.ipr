@@ -20,7 +20,7 @@
           </element>
           <element id="directory" name="lib">
             <element id="archive" name="model-1.0-SNAPSHOT.jar">
-              <element id="module-output" name="scaladojo1" />
+              <element id="module-output" name="model" />
             </element>
             <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.8.0.RC3" />
             <element id="library" level="project" name="Maven: org.scala-lang:scala-compiler:2.8.0.RC3" />
@@ -243,8 +243,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/minesweeper.iml" filepath="$PROJECT_DIR$/minesweeper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/model/scaladojo1.iml" filepath="$PROJECT_DIR$/model/scaladojo1.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>

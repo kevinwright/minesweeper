@@ -1,13 +1,26 @@
 <lift:surround with="default" at="content">
-		<h2>Welcome to your project!</h2>
-		<p>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/minesweeper.css" />
+    </head>
+
+    <img src="/img/sprites.png" />
+    <hr/>
+    <h2>Welcome to your project!</h2>
+    <p>
       <lift:helloWorld.howdy>
         <span>Welcome to liftweb at <b:time/></span>
       </lift:helloWorld.howdy>
-
-      <lift:mineGrid.show/>
-      <hr/>
-      <lift:mineGrid.reset/>
     </p>
+    <p>
+      <lift:mineGrid.show/>
+    </p>
+
+    <br style="clear:both"/>
+
+    <p>
+        <lift:mineGrid.reset/>
+    </p>
+
+    <br style="clear:both"/>
 </lift:surround>
 

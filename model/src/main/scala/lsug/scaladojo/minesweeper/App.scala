@@ -30,11 +30,11 @@ object App {
     results = results.flag(2,1)
     results = results.flag(2,2)
     println(results)
-    println("revealed = " + results.numRevealed)
+    println("revealed = " + results.numVisible)
     println("---")
     results = results.reveal(0,0)
     println(results)
-    println("revealed = " + results.numRevealed)
+    println("revealed = " + results.numVisible)
     println("---")
     println(results.disclose)
   }
