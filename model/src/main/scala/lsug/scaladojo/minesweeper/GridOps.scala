@@ -21,6 +21,7 @@ object GridOps {
 class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
 
   import GridOps._
+  import Cell._
 
   //calls the func for every group of three consecutive cells in a row
   //using the results to build the replacement row.  Then does the same
@@ -42,15 +43,20 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
   }
 
   def numVisible = count(_.visible)
-
+  def numMined = count(_.mined)
+  def numFlagged = count(_.flagged)
+  def numTotal = grid.length * grid(0).length
+  def numNotVisible = numTotal - numVisible
+  def numMinesRemaining = numMined - numFlagged
 
   def disclose = mapCells {_.copy(visible = true)}
+  def flagAllMines = mapCells {cell => if (cell.mined) cell.copy(flagged = true) else cell}
 
 
-  def flag(col : Int, row : Int) : Grid = mapCell(col, row)(_.copy(flagged = true))
+  def toggleFlag(col : Int, row : Int) : Grid = at(col, row)(_.toggleFlag)
 
 
-  def iterativeReveal(col : Int, row : Int) : Stream[Grid] = {
+  def reveal(col : Int, row : Int) : Stream[Grid] = {
 
     def spreadEmptiness(l:Cell, c:Cell, r:Cell) =
       if(l.emptyTainted || r.emptyTainted) c.copy(visible = true, adjacentEmpty=true)
@@ -63,34 +69,21 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
     //recurse until no more to reveal
     def recurse(prev:Grid) : Stream[Grid] = {
       val current = prev.propagate(spreadEmptiness).mapCells(removeTaint)
-      if (current.numVisible > prev.numVisible) current #:: recurse(current)
+      if(current.numNotVisible == current.numMined) Stream(current, current.flagAllMines.disclose)
+      else if (current.numVisible > prev.numVisible) current #:: recurse(current)
       else Stream.Empty
     }
 
     //reveal selected
-    val current = mapCell(col, row)(_.copy(clicked=true, visible = true))
-    current #:: recurse(current)
-  }
-
-  def reveal(col : Int, row : Int) : Grid = {
-
-    def propFunc(l:Cell, c:Cell, r:Cell) = {
-      if(l.emptyTainted || r.emptyTainted) c.copy(visible = true, adjacentEmpty=true)
-      else c
+    val current = at(col, row)(_.click)
+    if(current(row)(col).state == StateExploded) {
+      println("BOOM!")
+      Stream(current, current.disclose)
     }
-
-    //recurse until no more to reveal
-    def cascade(prev:Grid) : Grid = {
-      //clean the adjacentEmpty flag after each pass to stop the "taint"
-      //from overtaking the grid and revealing everything!
-      val current = prev.propagate(propFunc).mapCells(_.copy(adjacentEmpty=false))
-      if (current.numVisible > prev.numVisible) cascade(current)
-      else current
+    else {
+      println("click")
+      current #:: recurse(current)
     }
-
-    //reveal selected
-    val current = mapCell(col, row)(_.copy(clicked=true, visible = true))
-    cascade(current)
   }
 
   def calcTotals =

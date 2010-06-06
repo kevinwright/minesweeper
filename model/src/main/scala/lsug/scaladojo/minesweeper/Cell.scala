@@ -4,10 +4,6 @@ package lsug.scaladojo.minesweeper
 object Cell {
   val Minechar = '*'
   val Emptychar = '.'
-  val Hiddenchar = '☐'
-  val Flaggedchar = '✓'
-  val BadFlagchar = '✕'
-  val MissedMinechar = '*'
 
   implicit def intToCell(n : Int) : Cell = Cell(false, n)
 
@@ -17,23 +13,23 @@ object Cell {
     else error("unrecognised cell character: [" + char + "]")
   }
 
-  sealed trait State
-  case object StateFlagged extends State
-  case object StateHidden extends State
-  case object StateEmpty extends State
-  case object StateMined extends State
-  case object StateFlaggedGood extends State
-  case object StateFlaggedBad extends State
-  case object StateExploded extends State
-  sealed trait CountState extends State
-  case object StateCount1 extends CountState
-  case object StateCount2 extends CountState
-  case object StateCount3 extends CountState
-  case object StateCount4 extends CountState
-  case object StateCount5 extends CountState
-  case object StateCount6 extends CountState
-  case object StateCount7 extends CountState
-  case object StateCount8 extends CountState
+  sealed abstract class State(val name:String, val char:Char)
+  case object StateFlagged extends State("flagged", '¶')
+  case object StateHidden extends State("hidden", '☐')
+  case object StateEmpty extends State("empty", '.')
+  case object StateMined extends State("mined", '*')
+  case object StateFlaggedGood extends State("flaggedgood", '✓')
+  case object StateFlaggedBad extends State("flaggedbad", '✕')
+  case object StateExploded extends State("exploded", '#')
+  sealed abstract class CountState(name:String, char:Char) extends State(name, char)
+  case object StateCount1 extends CountState("count1", '1')
+  case object StateCount2 extends CountState("count2", '2')
+  case object StateCount3 extends CountState("count3", '3')
+  case object StateCount4 extends CountState("count4", '4')
+  case object StateCount5 extends CountState("count5", '5')
+  case object StateCount6 extends CountState("count6", '6')
+  case object StateCount7 extends CountState("count7", '7')
+  case object StateCount8 extends CountState("count8", '8')
 }
 
 
@@ -51,7 +47,15 @@ case class Cell(
   val empty = visible  && !mined && count == 0
   val emptyTainted = adjacentEmpty || empty
 
-  def toggleFlagged = this.copy(flagged = !(this.flagged))
+  def toggleFlag = {
+    if (visible) this
+    else this.copy(flagged = !(this.flagged))
+  }
+
+  def click = {
+    if (flagged) this
+    else this.copy(clicked=true, visible = true)
+  }
 
   lazy val state : State =
     if (!visible) {
@@ -63,7 +67,7 @@ case class Cell(
       else StateFlaggedBad
     }
     else if (mined && clicked) StateExploded
-    else if (!flagged && mined) StateMined
+    else if (mined) StateMined
     else if (count == 0) StateEmpty
     else count match {
       case 1 => StateCount1
@@ -77,14 +81,5 @@ case class Cell(
       case _ => error("this should never happen")
     }
 
-  override def toString =
-    if (!visible) {
-      if (flagged) Flaggedchar.toString
-      else Hiddenchar.toString
-    }
-    else if (flagged && mined) Flaggedchar.toString
-    else if (flagged && !mined) BadFlagchar.toString
-    else if (!flagged && mined) MissedMinechar.toString
-    else if (count == 0) Emptychar.toString
-    else count.toString
+  override def toString = state.char.toString
 }

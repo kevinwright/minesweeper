@@ -19,7 +19,7 @@ class MatrixOps[T](matrix : Matrix[T]) {
   }
 
   //map only the cell as the supplied co-ordinates
-  def mapCell(col : Int, row : Int)(f : T => T) : Matrix[T] = {
+  def at(col : Int, row : Int)(f : T => T) : Matrix[T] = {
     def rowFunc(row : Seq[T]) : Seq[T] = {
       val (left, right) = row.splitAt(col)
       left ++ (f(right.head) +: right.tail)
@@ -37,5 +37,8 @@ class MatrixOps[T](matrix : Matrix[T]) {
   def map2d(f: SeqFunc[T,T]) = mapRows(f).mapCols(f)
 
   def count (f: T => Boolean) = matrix.map(_.count(f)).sum
+
+  def cellExists (f: T => Boolean) = matrix.exists(row => row.exists(f))
+
 
 }

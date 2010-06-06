@@ -26,13 +26,13 @@ object App {
 
     var results = mines.calcTotals
     println("output:")
-    results = results.flag(2,0)
-    results = results.flag(2,1)
-    results = results.flag(2,2)
+    results = results.toggleFlag(2,0)
+    results = results.toggleFlag(2,1)
+    results = results.toggleFlag(2,2)
     println(results)
     println("revealed = " + results.numVisible)
     println("---")
-    results = results.reveal(0,0)
+    results = results.reveal(0,0).last
     println(results)
     println("revealed = " + results.numVisible)
     println("---")

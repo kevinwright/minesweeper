@@ -65,30 +65,11 @@ class MineGrid {
 
 //  <a href={uri}>{text}</a>
 
-  def cellClass(cell : Cell) : String = cell.state match {
-    case StateFlagged => "flagged"
-    case StateHidden => "hidden"
-    case StateEmpty => "empty"
-    case StateMined => "mined"
-    case StateFlaggedGood => "flaggedgood"
-    case StateFlaggedBad => "flaggedbad"
-    case StateExploded => "exploded"
-    case StateCount1 => "count1"
-    case StateCount2 => "count2"
-    case StateCount3 => "count3"
-    case StateCount4 => "count4"
-    case StateCount5 => "count5"
-    case StateCount6 => "count6"
-    case StateCount7 => "count7"
-    case StateCount8 => "count8"
-
-  }
-  
   def cellToHtml(cell : Cell, rowIdx : Int, colIdx : Int) = {
     val coords = "&x=" + colIdx + "&y=" + rowIdx
     val href = "?action=click"+coords
     val rclick = "location.href='?action=flag"+coords+"'; return false;"
-    <a class={cellClass(cell)} href={href} oncontextmenu={rclick}>&nbsp;</a>
+    <a class={cell.state.name} href={href} oncontextmenu={rclick}>&nbsp;</a>
   }
 
   def rowToHtml(row : Seq[Cell], rowIdx : Int) =
@@ -111,13 +92,13 @@ class MineGrid {
 
       case Full("click") =>
         for(x <- xParam; y <- yParam) {
-          val revealStream = grid.iterativeReveal(x,y)
+          val revealStream = grid.reveal(x,y)
           grid = revealStream.last
         }
 
       case Full("flag") =>
         for(x <- xParam; y <- yParam) {
-          grid = grid.flag(x, y)
+          grid = grid.toggleFlag(x, y)
         }
 
       case _ =>
