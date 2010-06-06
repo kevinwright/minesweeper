@@ -10,6 +10,6 @@
     </parent>
 
     <groupId>lsug.scaladojo.minesweeper</groupId>
-    <artifactId>model</artifactId>
+    <artifactId>core</artifactId>
     <inceptionYear>2008</inceptionYear>    
 </project>

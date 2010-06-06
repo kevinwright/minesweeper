@@ -19,9 +19,7 @@
             <element id="module-output" name="web" />
           </element>
           <element id="directory" name="lib">
-            <element id="archive" name="model-1.0-SNAPSHOT.jar">
-              <element id="module-output" name="model" />
-            </element>
+            <element id="library" level="project" name="Maven: lsug.scaladojo.minesweeper:model:1.0-SNAPSHOT" />
             <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.8.0.RC3" />
             <element id="library" level="project" name="Maven: org.scala-lang:scala-compiler:2.8.0.RC3" />
             <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.4.2" />
@@ -83,6 +81,7 @@
           <module name="scaladojo1" />
           <module name="parent" />
           <module name="web" />
+          <module name="model" />
         </modules>
       </facet-type>
       <facet-type id="web">
@@ -242,8 +241,8 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/minesweeper.iml" filepath="$PROJECT_DIR$/minesweeper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
@@ -565,6 +564,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: lsug.scaladojo.minesweeper:model:1.0-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/model/pom.xml!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/model/pom-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/model/pom-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
