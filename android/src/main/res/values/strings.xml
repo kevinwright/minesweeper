@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Scala Minsweeper</string>
+    <string name="hello">Hello, sbt world</string>
+</resources>
