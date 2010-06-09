@@ -5,14 +5,19 @@ object Cell {
   val Minechar = '*'
   val Emptychar = '.'
 
-  implicit def intToCell(n : Int) : Cell = Cell(false, n)
+  def intToCell(n : Int) : Cell = Cell(false, n)
 
-  implicit def charToCell(char : Char) : Cell = {
+  def charToCell(char : Char) : Cell = {
     if (char == Minechar) Cell(true, 1)
     else if (char == Emptychar) Cell(false, 0)
     else error("unrecognised cell character: [" + char + "]")
   }
 
+  def charToState(char : Char) : State = {
+    val state = allKnownStates.find(_.char == char)
+    state getOrElse error("unknown state char " + char)
+  }
+  
   sealed abstract class State(val name:String, val char:Char)
   case object StateFlagged extends State("flagged", '¶')
   case object StateHidden extends State("hidden", '☐')
@@ -30,6 +35,23 @@ object Cell {
   case object StateCount6 extends CountState("count6", '6')
   case object StateCount7 extends CountState("count7", '7')
   case object StateCount8 extends CountState("count8", '8')
+
+  val allKnownStates = List(
+    StateFlagged,
+    StateHidden,
+    StateEmpty,
+    StateMined,
+    StateFlaggedGood,
+    StateFlaggedBad,
+    StateExploded,
+    StateCount1,
+    StateCount2,
+    StateCount3,
+    StateCount4,
+    StateCount5,
+    StateCount6,
+    StateCount7,
+    StateCount8)
 }
 
 
@@ -40,6 +62,7 @@ case class Cell(
   clicked : Boolean = false,
   visible : Boolean = false,
   flagged : Boolean = false,
+  flagsAdjacent : Int = 0,
   adjacentEmpty : Boolean = false)
 {
   import Cell._

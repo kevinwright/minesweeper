@@ -31,7 +31,7 @@
   <dependencies>
       <dependency>
         <groupId>lsug.scaladojo.minesweeper</groupId>
-        <artifactId>model</artifactId>
+        <artifactId>core</artifactId>
           <version>${project.version}</version>
       </dependency>
 

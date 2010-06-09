@@ -3,46 +3,19 @@ package snippet
 
 import scala.xml.NodeSeq
 
-import net.liftweb.http.{RequestVar, SessionVar, StatefulSnippet, S}
 import net.liftweb.util.Helpers
 
 import Helpers._
 import GridOps._
+import MatrixOps._
 import java.util.Random
 import Cell._
 import net.liftweb.common.{Full, Box}
+import net.liftweb.http._
+import js.JE.JsRaw
+import js.JsCmd
 
 class MineGrid {
-  private[this] val inputA =
-    """|..*..........
-       |.............
-       |..*...*.***..
-       |..*...*...*..
-       |..*...*...*..
-       |..*...*...*..
-       |..*...*...*..
-       |..*.......*..
-       |..*.......*..
-       |..*.......*..
-       |..*.*.**..*..
-       |.............
-       |.............""".stripMargin
-
-  private[this] val inputB =
-    """|......*......
-       |.............
-       |..*....*..*..
-       |...*....*....
-       |....*.....*..
-       |.....**...*..
-       |......*......
-       |.....*.*.....
-       |....*.....*..
-       |...*....**...
-       |..*.......*..
-       |.............
-       |.............""".stripMargin
-
 
   def randomGrid(w:Int, h:Int) : Grid = {
     val rnd = new Random
@@ -54,9 +27,7 @@ class MineGrid {
     List.fill(h)(mkRow)
   }
 
-  def newGrid : Grid =
-    //gridFromString(inputA).calcTotals
-    randomGrid(10,10).calcTotals
+  def newGrid : Grid = randomGrid(10,10).calcTotals
 
 
   object sessionGrid extends SessionVar[Grid](newGrid)
@@ -65,22 +36,30 @@ class MineGrid {
 
 //  <a href={uri}>{text}</a>
 
-  def cellToHtml(cell : Cell, rowIdx : Int, colIdx : Int) = {
-    val coords = "&x=" + colIdx + "&y=" + rowIdx
-    val href = "?action=click"+coords
-    val rclick = "location.href='?action=flag"+coords+"'; return false;"
-    <a class={cell.state.name} href={href} oncontextmenu={rclick}>&nbsp;</a>
-  }
-
-  def rowToHtml(row : Seq[Cell], rowIdx : Int) =
-    <div class="row">
-      {row.view.zipWithIndex map {case (cell, colIdx) => cellToHtml(cell, rowIdx, colIdx)} }
-    </div>
+  def lclickFunc(x:Int, y:Int) : JsCmd = {
+    println("Received (%d,%d)".format(x,y));
+    JsRaw("alert(’Button2 clicked’)")
+}
 
   def gridAsHtml =
-    <div class="minegrid">
-      {grid.view.zipWithIndex map {case (row,rowIdx) => rowToHtml(row, rowIdx)} }
-    </div>
+    <div class="minegrid">{
+      grid.states.zipWithCoords.map { row =>
+        <div class="row">{
+          row map {
+            case (x, y, state) =>
+              val lclick = "lclick(%d,%d)".format(x,y)
+              val rclick = "rclick(%d,%d)".format(x,y)
+
+              val lclick2 = SHtml.ajaxCall(Str("Button-2"), ajaxFunc2 _)._2
+              val rclick2 = SHtml.ajaxCall(Str("Button-2"), ajaxFunc2 _)._2
+
+              val id="cell_%d_%d".format(x,y)
+              val classes = "cell " + state.name
+              <a id={id} class={classes} href="#" onclick={lclick} oncontextmenu={rclick}>&nbsp;</a>
+          }
+        }</div>
+      }
+    }</div>
 
   object actionParam extends RequestVar[Box[String]](S.param("action"))
   object xParam extends RequestVar[Box[Int]](S.param("x").map(_.toInt))
@@ -92,8 +71,12 @@ class MineGrid {
 
       case Full("click") =>
         for(x <- xParam; y <- yParam) {
-          val revealStream = grid.reveal(x,y)
-          grid = revealStream.last
+//          println("revealing:" + x + "," + y)
+          val cascade = grid.reveal(x,y).toList
+//          println("here come the grids")
+//          cascade foreach {grid => println("---"); println(grid.matrixToString)}
+//          println("and returning...")
+          grid = cascade.last
         }
 
       case Full("flag") =>
@@ -105,6 +88,12 @@ class MineGrid {
     }
     gridAsHtml
   }
+
+  def stats =
+    <ul>
+      <li>total: {grid.numTotal} ({grid.numVisible} revealed, {grid.numNotVisible} hidden)</li>
+      <li>mined: {grid.numMined} ({grid.numFlagged} flagged, {grid.numMinesRemaining} remaining)</li>
+    </ul>
 
   def reset = <a href="?action=reset">reset</a>
 }

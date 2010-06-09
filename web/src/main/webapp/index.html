@@ -1,16 +1,41 @@
 <lift:surround with="default" at="content">
     <head>
         <link rel="stylesheet" type="text/css" href="css/minesweeper.css" />
+
+        <!--<script type="text/javascript" src="/js/jquery-1.4.2.js"/>-->
+
+        <script type="text/javascript">
+            function action(name,x,y) {
+                location.href= "?action=" + name + "&amp;x=" + x + "&amp;y=" +y;
+            }
+            function lclick(x,y) {
+                action("click",x,y);
+                return false;
+            }
+            function rclick(x,y) {
+                action("flag",x,y);
+                return false;
+            }
+
+            $(document).ready(function(){
+                $("a").click(function(event){
+                    alert("As you can see, the link no longer took you to jquery.com");
+                    event.preventDefault();
+                });
+            });
+        </script>
     </head>
 
-    <img src="/img/sprites.png" />
+    <h2>Minesweeper!</h2>
+    A demo of Lift 2.0 + Scala 2.8 running on Stax.net
     <hr/>
-    <h2>Welcome to your project!</h2>
     <p>
       <lift:helloWorld.howdy>
-        <span>Welcome to liftweb at <b:time/></span>
+        <span>The present time is: <b:time/></span>
       </lift:helloWorld.howdy>
     </p>
+    <p>Left-Click to reveal a square, Right-Click to flag as a mine</p>
+    <hr/>
     <p>
       <lift:mineGrid.show/>
     </p>
@@ -18,7 +43,7 @@
     <br style="clear:both"/>
 
     <p>
-        <lift:mineGrid.reset/>
+        <lift:mineGrid.stats/><lift:mineGrid.reset/>
     </p>
 
     <br style="clear:both"/>

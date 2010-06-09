@@ -1,6 +1,7 @@
 package lsug.scaladojo.minesweeper
 
 import MatrixOps.Matrix
+import Cell._
 
 object GridOps {
   type Grid = Matrix[Cell]
@@ -8,12 +9,19 @@ object GridOps {
 
   //convert a string delimited with newlines into a List[List[Char]]
   def gridFromString(input : String) : Grid = {
-    import Cell.charToCell
     val rowStrings = input.split('\n').toList
     rowStrings map { _.toList map {charToCell(_)} }
   }
 
-  implicit def grid2gridOps(g:Grid) = new GridOps(g)
+  //convert a string delimited with newlines into a List[List[State]]
+  def statesGridFromString(input : String) : Matrix[State] = {
+    val rowStrings = input.split('\n').toList
+    rowStrings map { _.toList map {charToState(_)} }
+  }
+
+  def apply(g:Grid) = new GridOps(g)
+  
+  implicit def grid2gridOps(g:Grid) = apply(g)
 }
 
 
@@ -56,8 +64,7 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
   def toggleFlag(col : Int, row : Int) : Grid = at(col, row)(_.toggleFlag)
 
 
-  def reveal(col : Int, row : Int) : Stream[Grid] = {
-
+  def cascade : Stream[Grid] = {
     def spreadEmptiness(l:Cell, c:Cell, r:Cell) =
       if(l.emptyTainted || r.emptyTainted) c.copy(visible = true, adjacentEmpty=true)
       else c
@@ -69,25 +76,24 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
     //recurse until no more to reveal
     def recurse(prev:Grid) : Stream[Grid] = {
       val current = prev.propagate(spreadEmptiness).mapCells(removeTaint)
+
       if(current.numNotVisible == current.numMined) Stream(current, current.flagAllMines.disclose)
       else if (current.numVisible > prev.numVisible) current #:: recurse(current)
       else Stream.Empty
     }
 
+    grid #:: recurse(grid)
+  }
+
+  def reveal(col : Int, row : Int) : Stream[Grid] = {
     //reveal selected
     val current = at(col, row)(_.click)
-    if(current(row)(col).state == StateExploded) {
-      println("BOOM!")
-      Stream(current, current.disclose)
-    }
-    else {
-      println("click")
-      current #:: recurse(current)
-    }
+    if(current(row)(col).state == StateExploded) Stream(current, current.disclose)
+    else current.cascade
   }
 
   def calcTotals =
     propagate{(l,c,r) => c.copy(count=l.count + c.count + r.count)}
 
-
+  def states : Matrix[Cell.State] =  grid mapCells (_.state)
 }
