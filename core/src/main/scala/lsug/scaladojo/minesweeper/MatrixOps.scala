@@ -49,7 +49,7 @@ class MatrixOps[A](matrix : Matrix[A]) {
       case (a,b) if a==b => None
       case (_,b) => Some(b)
     }
-
+  
   def coords : Matrix[(Int, Int)] =
     matrix.zipWithIndex.map {
       case(row, y) => row.indices.map( x => (x, y) )

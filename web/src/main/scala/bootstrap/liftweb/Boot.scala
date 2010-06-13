@@ -17,7 +17,10 @@ class Boot {
     LiftRules.addToPackages("lsug.scaladojo.minesweeper")
 
     // Build SiteMap
-    val entries = Menu(Loc("Home", List("index"), "Home")) :: Nil
+    val entries =
+      Menu(Loc("Home", List("index"), "Home")) ::
+      Menu(Loc("ajaxBtn", List("ajaxBtn"), "ajaxBtn")) ::
+      Nil
     LiftRules.setSiteMap(SiteMap(entries:_*))
   }
 }

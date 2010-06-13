@@ -2,27 +2,55 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/minesweeper.css" />
 
-        <!--<script type="text/javascript" src="/js/jquery-1.4.2.js"/>-->
-
+        <script type="text/javascript" src="/js/jquery.rightClick.js" />
+        <lift:mineGrid.scripts/>
         <script type="text/javascript">
-            function action(name,x,y) {
-                location.href= "?action=" + name + "&amp;x=" + x + "&amp;y=" +y;
-            }
-            function lclick(x,y) {
-                action("click",x,y);
-                return false;
-            }
-            function rclick(x,y) {
-                action("flag",x,y);
-                return false;
-            }
-
             $(document).ready(function(){
-                $("a").click(function(event){
-                    alert("As you can see, the link no longer took you to jquery.com");
+                $("a.cell").click(function(event){
+                    cellLeftClick(event.target.id)
+                    event.preventDefault();
+                });
+                $("a.cell").rightClick(function(event){
+                    cellRightClick(event.target.id)
                     event.preventDefault();
                 });
             });
+
+            function flip(id, newstate) {
+              var cell = $('#'+id)
+              cell.animate({
+                height: 0,
+                top: '+=12'
+              }, 70, function() {
+                cell.attr('class', 'cell ' + newstate)
+                cell.animate({
+                  height: 24,
+                  top: '-=12'
+                }, 100, function() {
+                  //all done!
+                });
+              });
+            }
+
+            function cascadeGroup(ids, states) {
+                if (ids.length > 0) {
+                    flip(ids.shift(), states.shift())
+                    cascadeGroup(ids, states)
+                }
+            }
+
+            //seq = [{ids:[...],states:[...]}, {ids:[...],states:[...]}, ...]
+            function cascadeSeq(seq) {
+                if (seq.length > 0) {
+                    var group = seq.shift()
+                    cascadeGroup(group.ids, group.states)
+                    setTimeout(function() {cascadeSeq(seq)},50);
+                }
+            }
+
+            function updateStats(stats) {
+                
+            }
         </script>
     </head>
 
@@ -43,7 +71,13 @@
     <br style="clear:both"/>
 
     <p>
-        <lift:mineGrid.stats/><lift:mineGrid.reset/>
+        <lift:mineGrid.stats>
+            <ul>
+              <li>total: <stat:total/> (<stat:visible/> revealed, <stat:notvisible/> hidden)</li>
+              <li>mined: <stat:mined/> (<stat:flagged/> flagged, <stat:remaining/> remaining)</li>
+            </ul>
+        </lift:mineGrid.stats>
+        <lift:mineGrid.reset/>
     </p>
 
     <br style="clear:both"/>

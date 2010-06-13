@@ -75,11 +75,13 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
 
     //recurse until no more to reveal
     def recurse(prev:Grid) : Stream[Grid] = {
-      val current = prev.propagate(spreadEmptiness).mapCells(removeTaint)
-
-      if(current.numNotVisible == current.numMined) Stream(current, current.flagAllMines.disclose)
-      else if (current.numVisible > prev.numVisible) current #:: recurse(current)
-      else Stream.Empty
+      if(prev.numNotVisible == prev.numMined)
+        Stream(prev.flagAllMines.disclose)
+      else {
+        val current = prev.propagate(spreadEmptiness).mapCells(removeTaint)
+        if (current.numVisible > prev.numVisible) current #:: recurse(current)
+        else Stream.Empty
+      }
     }
 
     grid #:: recurse(grid)
