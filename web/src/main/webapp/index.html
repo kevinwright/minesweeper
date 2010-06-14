@@ -6,11 +6,13 @@
         <lift:mineGrid.scripts/>
         <script type="text/javascript">
             $(document).ready(function(){
-                $("a.cell").click(function(event){
+                $('.minegrid .row a').live('click', function(event){
+                    event.stopPropagation();
                     cellLeftClick(event.target.id)
                     event.preventDefault();
                 });
-                $("a.cell").rightClick(function(event){
+                $('.minegrid .row a').live('contextmenu', function(event){
+                    event.stopPropagation();
                     cellRightClick(event.target.id)
                     event.preventDefault();
                 });
@@ -19,14 +21,12 @@
             function flip(id, newstate) {
               var cell = $('#'+id)
               cell.animate({
-                height: 0,
-                top: '+=12'
+                height: 0
               }, 70, function() {
-                cell.attr('class', 'cell ' + newstate)
+                cell.attr('class', newstate)
                 cell.animate({
-                  height: 24,
-                  top: '-=12'
-                }, 100, function() {
+                  height: 24
+                }, 70, function() {
                   //all done!
                 });
               });

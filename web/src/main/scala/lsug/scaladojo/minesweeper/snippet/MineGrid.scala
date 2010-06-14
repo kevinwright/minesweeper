@@ -9,9 +9,8 @@ import MatrixOps._
 import java.util.Random
 import Cell._
 import net.liftweb.http._
-import js.JE
-import js.JsCmd
 import js.JsCmds._
+import js.{JsCmds, JE, JsCmd}
 import net.liftweb.common.{Empty, Full, Box}
 import scala.util.matching.Regex
 import xml.{Text, NodeSeq}
@@ -115,6 +114,22 @@ class MineGrid {
     }
   }
 
+  //not used yet
+  def Function(funcName:Symbol)(params:Symbol*)(body:JsCmd) : JsCmd = {
+    JsCmds.Function(funcName.name, params.toList.map(_.name), body)
+  }
+
+  //not used yet
+  def scripts2 =
+    <script type="text/javascript">{
+      Function('cellLeftClick)('id) {
+        SHtml.ajaxCall(JE.JsRaw("id"), jsCtx, cellLeftClick _)._2
+      }
+      Function('cellRightClick)('id) {
+        SHtml.ajaxCall(JE.JsRaw("id"), jsCtx, cellRightClick _)._2
+      }
+    }</script>
+
   def scripts =
     <script type="text/javascript">
       function cellLeftClick(id) {{
@@ -131,8 +146,8 @@ class MineGrid {
         <div class="row">{
           row map {
             case (x, y, state) =>
-              val classes = "cell " + state.name
-              <a id={CellId(x,y)} class={classes} href="#">&nbsp;</a>
+              val href = "?action=click&x=%d&y=%d".format(x,y)
+              <a id={CellId(x,y)} class={state.name} href={href}>&nbsp;</a>
           }
         }</div>
       }
