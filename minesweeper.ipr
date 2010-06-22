@@ -22,8 +22,8 @@
             <element id="archive" name="core-1.0-SNAPSHOT.jar">
               <element id="module-output" name="core" />
             </element>
-            <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.8.0.RC3" />
-            <element id="library" level="project" name="Maven: org.scala-lang:scala-compiler:2.8.0.RC3" />
+            <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.8.0.RC6" />
+            <element id="library" level="project" name="Maven: org.scala-lang:scala-compiler:2.8.0.RC6" />
             <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.4.2" />
             <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.4.2" />
             <element id="library" level="project" name="Maven: log4j:log4j:1.2.14" />
@@ -281,28 +281,6 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
-    <library name="Maven: org.scala-lang:scala-library:2.8.0.RC3">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0.RC3/scala-library-2.8.0.RC3.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0.RC3/scala-library-2.8.0.RC3-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0.RC3/scala-library-2.8.0.RC3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.scala-lang:scala-compiler:2.8.0.RC3">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0.RC3/scala-compiler-2.8.0.RC3.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0.RC3/scala-compiler-2.8.0.RC3-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0.RC3/scala-compiler-2.8.0.RC3-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: junit:junit:4.7">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7.jar!/" />
@@ -347,15 +325,50 @@
         <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.scalatest:scalatest:1.2-for-scala-2.8.0.RC3-SNAPSHOT">
+    <library name="Maven: lsug.scaladojo.minesweeper:model:1.0-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2-for-scala-2.8.0.RC3-SNAPSHOT/scalatest-1.2-for-scala-2.8.0.RC3-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/lsug/scaladojo/minesweeper/model/1.0-SNAPSHOT/model-1.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2-for-scala-2.8.0.RC3-SNAPSHOT/scalatest-1.2-for-scala-2.8.0.RC3-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/model/pom-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/lsug/scaladojo/minesweeper/model/1.0-SNAPSHOT/model-1.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2-for-scala-2.8.0.RC3-SNAPSHOT/scalatest-1.2-for-scala-2.8.0.RC3-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/model/pom-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/lsug/scaladojo/minesweeper/model/1.0-SNAPSHOT/model-1.0-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scala-lang:scala-library:2.8.0.RC6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0.RC6/scala-library-2.8.0.RC6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0.RC6/scala-library-2.8.0.RC6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.0.RC6/scala-library-2.8.0.RC6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scala-lang:scala-compiler:2.8.0.RC6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0.RC6/scala-compiler-2.8.0.RC6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0.RC6/scala-compiler-2.8.0.RC6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.0.RC6/scala-compiler-2.8.0.RC6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.scalatest:scalatest:1.2-for-scala-2.8.0.RC5-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2-for-scala-2.8.0.RC5-SNAPSHOT/scalatest-1.2-for-scala-2.8.0.RC5-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2-for-scala-2.8.0.RC5-SNAPSHOT/scalatest-1.2-for-scala-2.8.0.RC5-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest/1.2-for-scala-2.8.0.RC5-SNAPSHOT/scalatest-1.2-for-scala-2.8.0.RC5-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: net.liftweb:lift-mapper:2.0-scala280-SNAPSHOT">
@@ -556,30 +569,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: lsug.scaladojo.minesweeper:model:1.0-SNAPSHOT">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/lsug/scaladojo/minesweeper/model/1.0-SNAPSHOT/model-1.0-SNAPSHOT.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$PROJECT_DIR$/model/pom-javadoc.jar!/" />
-        <root url="jar://$MAVEN_REPOSITORY$/lsug/scaladojo/minesweeper/model/1.0-SNAPSHOT/model-1.0-SNAPSHOT-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/model/pom-sources.jar!/" />
-        <root url="jar://$MAVEN_REPOSITORY$/lsug/scaladojo/minesweeper/model/1.0-SNAPSHOT/model-1.0-SNAPSHOT-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.mortbay.jetty:jetty:6.1.24">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/jetty/6.1.24/jetty-6.1.24.jar!/" />
@@ -600,6 +589,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/jetty-util/6.1.24/jetty-util-6.1.24-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211-sources.jar!/" />
       </SOURCES>
     </library>
   </component>

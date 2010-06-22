@@ -2,8 +2,11 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/minesweeper.css" />
 
-        <script type="text/javascript" src="/js/jquery.rightClick.js" />
-        <lift:mineGrid.scripts/>
+        
+        <script type="text/javascript" src="js/cellFlipFuncs.js" />
+
+        <lift:mineGrid.clickHandlerScripts/>
+
         <script type="text/javascript">
             $(document).ready(function(){
                 $('.minegrid .row a').live('click', function(event){
@@ -17,51 +20,12 @@
                     event.preventDefault();
                 });
             });
-
-            function flip(id, newstate) {
-              var cell = $('#'+id)
-              cell.animate({
-                height: 0
-              }, 70, function() {
-                cell.attr('class', newstate)
-                cell.animate({
-                  height: 24
-                }, 70, function() {
-                  //all done!
-                });
-              });
-            }
-
-            function cascadeGroup(ids, states) {
-                if (ids.length > 0) {
-                    flip(ids.shift(), states.shift())
-                    cascadeGroup(ids, states)
-                }
-            }
-
-            //seq = [{ids:[...],states:[...]}, {ids:[...],states:[...]}, ...]
-            function cascadeSeq(seq) {
-                if (seq.length > 0) {
-                    var group = seq.shift()
-                    cascadeGroup(group.ids, group.states)
-                    setTimeout(function() {cascadeSeq(seq)},50);
-                }
-            }
-
-            function updateStats(stats) {
-                
-            }
         </script>
     </head>
 
     <h2>Minesweeper!</h2>
     A demo of Lift 2.0 + Scala 2.8 running on Stax.net
     <hr/>
-    <p>
-      <lift:helloWorld.howdy>
-        <span>The present time is: <b:time/></span>
-      </lift:helloWorld.howdy>
-    </p>
     <p>Left-Click to reveal a square, Right-Click to flag as a mine</p>
     <hr/>
     <p>
@@ -77,6 +41,7 @@
               <li>mined: <stat:mined/> (<stat:flagged/> flagged, <stat:remaining/> remaining)</li>
             </ul>
         </lift:mineGrid.stats>
+        
         <lift:mineGrid.reset/>
     </p>
 

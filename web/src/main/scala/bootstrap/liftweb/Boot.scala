@@ -18,8 +18,7 @@ class Boot {
 
     // Build SiteMap
     val entries =
-      Menu(Loc("Home", List("index"), "Home")) ::
-      Menu(Loc("ajaxBtn", List("ajaxBtn"), "ajaxBtn")) ::
+      Menu(Loc("Home", List("index"), "Home"))  ::
       Nil
     LiftRules.setSiteMap(SiteMap(entries:_*))
   }

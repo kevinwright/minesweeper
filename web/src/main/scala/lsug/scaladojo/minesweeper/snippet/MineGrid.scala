@@ -7,12 +7,10 @@ import Helpers._
 import GridOps._
 import MatrixOps._
 import java.util.Random
-import Cell._
 import net.liftweb.http._
 import js.JsCmds._
 import js.{JsCmds, JE, JsCmd}
 import net.liftweb.common.{Empty, Full, Box}
-import scala.util.matching.Regex
 import xml.{Text, NodeSeq}
 
 class MineGrid {
@@ -130,7 +128,7 @@ class MineGrid {
       }
     }</script>
 
-  def scripts =
+  def clickHandlerScripts =
     <script type="text/javascript">
       function cellLeftClick(id) {{
         {SHtml.ajaxCall(JE.JsRaw("id"), jsCtx, cellLeftClick _)._2};
@@ -156,6 +154,10 @@ class MineGrid {
   val actionParam = S.param("action")
   val xParam = S.param("x") map (_.toInt)
   val yParam = S.param("y") map (_.toInt)
+
+//  object actionParam extends RequestVar[String]("action")
+//  object xParam extends RequestVar[Int]("x")
+//  object yParam extends RequestVar[Int]("y")
 
   def show = {
     actionParam match {
