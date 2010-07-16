@@ -64,7 +64,7 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
   def toggleFlag(col : Int, row : Int) : Grid = at(col, row)(_.toggleFlag)
 
 
-  def cascade : Stream[Grid] = {
+  def continueRevealing : Stream[Grid] = {
     def spreadEmptiness(l:Cell, c:Cell, r:Cell) =
       if(l.emptyTainted || r.emptyTainted) c.copy(visible = true, adjacentEmpty=true)
       else c
@@ -91,7 +91,7 @@ class GridOps(grid: Matrix[Cell]) extends MatrixOps[Cell](grid) {
     //reveal selected
     val current = at(col, row)(_.click)
     if(current(row)(col).state == StateExploded) Stream(current, current.disclose)
-    else current.cascade
+    else current.continueRevealing
   }
 
   def calcTotals =
